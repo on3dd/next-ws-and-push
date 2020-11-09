@@ -1,90 +1,104 @@
-import React from 'react';
+import { NextPage } from 'next';
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';
 
-const Home: React.FC = () => {
+import Styles from '../styles/home';
+import GlobalStyle from '../styles/global';
+
+const Home: NextPage = () => {
   return (
-    <div className={styles.container}>
+    <Styles.Container className="home">
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
+      <Styles.Main className="home__main">
+        <GlobalStyle />
+
+        <Styles.Title className="home__title">
           Welcome to{' '}
-          <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+          <Styles.TitleLink href="https://nextjs.org">
+            Next.js!
+          </Styles.TitleLink>
+        </Styles.Title>
 
-        <p className={styles.description}>
+        <Styles.Description className="home__description">
           Get started by editing{' '}
-          <code className={styles.code}>
+          <Styles.Code className="home__code">
             pages/index.js
-          </code>
-        </p>
+          </Styles.Code>
+        </Styles.Description>
 
-        <div className={styles.grid}>
-          <a
+        <Styles.Grid className="home__grid">
+          <Styles.Card
             href="https://nextjs.org/docs"
-            className={styles.card}
+            className="home__card"
           >
-            <h3>Documentation &rarr;</h3>
-            <p>
+            <Styles.CardHeading>
+              Documentation &rarr;
+            </Styles.CardHeading>
+            <Styles.CardParagraph>
               Find in-depth information about Next.js
               features and API.
-            </p>
-          </a>
+            </Styles.CardParagraph>
+          </Styles.Card>
 
-          <a
+          <Styles.Card
             href="https://nextjs.org/learn"
-            className={styles.card}
+            className="home__card"
           >
-            <h3>Learn &rarr;</h3>
-            <p>
+            <Styles.CardHeading>
+              Learn &rarr;
+            </Styles.CardHeading>
+            <Styles.CardParagraph>
               Learn about Next.js in an interactive course
               with quizzes!
-            </p>
-          </a>
+            </Styles.CardParagraph>
+          </Styles.Card>
 
-          <a
+          <Styles.Card
             href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
+            className="home__card"
           >
-            <h3>Examples &rarr;</h3>
-            <p>
+            <Styles.CardHeading>
+              Examples &rarr;
+            </Styles.CardHeading>
+            <Styles.CardParagraph>
               Discover and deploy boilerplate example
               Next.js projects.
-            </p>
-          </a>
+            </Styles.CardParagraph>
+          </Styles.Card>
 
-          <a
+          <Styles.Card
             href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
+            className="home__card"
           >
-            <h3>Deploy &rarr;</h3>
-            <p>
+            <Styles.CardHeading>
+              Deploy &rarr;
+            </Styles.CardHeading>
+            <Styles.CardParagraph>
               Instantly deploy your Next.js site to a public
               URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
+            </Styles.CardParagraph>
+          </Styles.Card>
+        </Styles.Grid>
+      </Styles.Main>
 
-      <footer className={styles.footer}>
-        <a
+      <Styles.Footer className="home__footer">
+        <Styles.FooterLink
           href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
           target="_blank"
           rel="noopener noreferrer"
         >
           Powered by{' '}
-          <img
+          <Styles.FooterImg
             src="/vercel.svg"
             alt="Vercel Logo"
-            className={styles.logo}
+            className="home__logo"
           />
-        </a>
-      </footer>
-    </div>
+        </Styles.FooterLink>
+      </Styles.Footer>
+    </Styles.Container>
   );
 };
 

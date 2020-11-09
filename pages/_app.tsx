@@ -1,14 +1,11 @@
-import React from 'react';
-import { NextComponentType } from 'next';
-
-import '../styles/globals.css';
+import { NextPage, NextComponentType } from 'next';
 
 type AppProps = {
   Component: NextComponentType;
   pageProps: unknown;
 };
 
-const App: React.FC<AppProps> = ({
+const App: NextPage<AppProps> = ({
   Component,
   pageProps,
 }: AppProps) => {
