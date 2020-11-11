@@ -1,0 +1,84 @@
+import {
+  Server as HttpServer,
+  IncomingMessage,
+  ServerResponse,
+} from 'http';
+import { UrlWithParsedQuery } from 'url';
+
+import next from 'next';
+import NextServer from 'next/dist/next-server/server/next-server';
+
+import express, { Express, urlencoded } from 'express';
+import 'express-async-errors';
+
+import router from '../routes';
+import errorHandler from '../middlewares/errorHandler';
+
+type HandleFunc = (
+  req: IncomingMessage,
+  res: ServerResponse,
+  parsedUrl?: UrlWithParsedQuery | undefined,
+) => Promise<void>;
+
+type ServerProps = {
+  dev: boolean;
+};
+
+export default class Server {
+  private app: Express;
+  private next: NextServer;
+  private nextHandle: HandleFunc;
+  private server!: HttpServer;
+  private static instance: Server;
+
+  private constructor({ dev }: ServerProps) {
+    this.next = next({ dev });
+
+    this.nextHandle = this.next.getRequestHandler();
+
+    this.app = express();
+
+    this.app.use(
+      urlencoded({
+        extended: true,
+      }),
+    );
+
+    this.app.use('/', router);
+
+    this.app.all('*', (req, res) => {
+      return this.nextHandle(req, res);
+    });
+
+    // Must be placed after the router
+    this.app.use(errorHandler);
+  }
+
+  public async prepare() {
+    return this.next.prepare();
+  }
+
+  public start(port: number) {
+    return new Promise<void>((resolve) => {
+      this.server = this.app.listen(port, () => {
+        resolve();
+      });
+    });
+  }
+
+  public close() {
+    return new Promise<void>((resolve) => {
+      this.server.close(() => {
+        resolve();
+      });
+    });
+  }
+
+  public static getInstance({ dev }: ServerProps): Server {
+    if (!Server.instance) {
+      Server.instance = new Server({ dev });
+    }
+
+    return Server.instance;
+  }
+}
