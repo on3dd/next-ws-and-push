@@ -4,6 +4,8 @@ import Head from 'next/head';
 import Styles from '../styles/home';
 import GlobalStyle from '../styles/global';
 
+import Messages from '../components/Messages';
+
 const Home: NextPage = () => {
   return (
     <Styles.Container className="home">
@@ -28,6 +30,8 @@ const Home: NextPage = () => {
             pages/index.js
           </Styles.Code>
         </Styles.Description>
+
+        <Messages />
 
         <Styles.Grid className="home__grid">
           <Styles.Card
