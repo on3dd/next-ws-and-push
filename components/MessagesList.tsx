@@ -28,10 +28,7 @@ const MessagesList: React.FC<MessagesListProps> = ({
   <Div className="messages__list">
     {messages.map((message) => {
       return (
-        <MessagesItem
-          key={message.title}
-          message={message}
-        />
+        <MessagesItem key={message.id} message={message} />
       );
     })}
   </Div>

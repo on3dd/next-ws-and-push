@@ -11,6 +11,7 @@ import NextServer from 'next/dist/next-server/server/next-server';
 import express, { Express, urlencoded } from 'express';
 import 'express-async-errors';
 
+import Ws from './ws';
 import router from '../routes';
 import errorHandler from '../middlewares/errorHandler';
 
@@ -28,6 +29,7 @@ export default class Server {
   private app: Express;
   private next: NextServer;
   private nextHandle: HandleFunc;
+  private ws: Ws;
   private server!: HttpServer;
   private static instance: Server;
 
@@ -52,6 +54,8 @@ export default class Server {
 
     // Must be placed after the router
     this.app.use(errorHandler);
+
+    this.ws = Ws.getInstance();
   }
 
   public async prepare() {
@@ -61,6 +65,8 @@ export default class Server {
   public start(port: number) {
     return new Promise<void>((resolve) => {
       this.server = this.app.listen(port, () => {
+        this.ws.start(this.server);
+
         resolve();
       });
     });
@@ -69,6 +75,8 @@ export default class Server {
   public close() {
     return new Promise<void>((resolve) => {
       this.server.close(() => {
+        this.ws.close();
+
         resolve();
       });
     });

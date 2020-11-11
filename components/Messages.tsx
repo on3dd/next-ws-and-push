@@ -1,11 +1,13 @@
-import { NextComponentType } from 'next';
+import React from 'react';
 import styled from 'styled-components';
+import { io, Socket } from 'socket.io-client';
 
 import Message from '../models/Message';
 import MessagesList from './MessagesList';
 import MessagesButton from './MessagesButton';
 
 const Div = styled.div`
+  width: 100%;
   text-align: center;
 `;
 
@@ -14,33 +16,51 @@ const Heading = styled.h2`
   font-size: 2.5rem;
 `;
 
-const Messages: NextComponentType = () => {
-  const onClick = () => {
-    console.log('fuck niggers');
-  };
+type MessagesProps = {};
 
-  const messages: Message[] = [
-    {
-      title: 'bruh',
-      description:
-        'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Architecto, natus.',
-    },
-    {
-      title: 'i hate niggers',
-      description:
-        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil, laudantium.',
-    },
-  ];
-
-  return (
-    <Div className="messages">
-      <Heading className="messages__title">
-        Messages
-      </Heading>
-      <MessagesList messages={messages} />
-      <MessagesButton onClick={onClick} />
-    </Div>
-  );
+type MessagesState = {
+  messages: Message[];
 };
+
+class Messages extends React.Component<
+  MessagesProps,
+  MessagesState
+> {
+  private socket: Socket;
+
+  constructor(props: MessagesProps) {
+    super(props);
+
+    this.state = {
+      messages: [],
+    };
+  }
+
+  componentDidMount() {
+    this.socket = io();
+    this.socket.on('message', (message: Message) => {
+      this.setState((state) => ({
+        messages: [...state.messages, message],
+      }));
+    });
+  }
+
+  private onClick() {
+    console.log('black niggers matter');
+    this.socket.emit('message');
+  }
+
+  render() {
+    return (
+      <Div className="messages">
+        <Heading className="messages__title">
+          Messages
+        </Heading>
+        <MessagesList messages={this.state.messages} />
+        <MessagesButton onClick={() => this.onClick()} />
+      </Div>
+    );
+  }
+}
 
 export default Messages;

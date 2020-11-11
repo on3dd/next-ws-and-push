@@ -14,7 +14,7 @@ const startServer = async () => {
   await server.prepare();
   await server.start(port);
 
-  logger.info(`Serving at http://localhost:${port} \n`);
+  logger.info(`Serving at http://localhost:${port}`);
 };
 
 const bootstrap = async () => {
@@ -45,6 +45,7 @@ bootstrap();
   },
 );
 
+// commented due to weird logging behavior
 const shutdown = async () => {
   logger.warn(
     'SIGTERM signal received: closing HTTP server',
