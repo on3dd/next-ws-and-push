@@ -46,7 +46,6 @@ class Messages extends React.Component<
   }
 
   private onClick() {
-    console.log('black niggers matter');
     this.socket.emit('message');
   }
 
